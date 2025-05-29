@@ -1,0 +1,211 @@
+services:
+  ui-admin:
+    # build: ./ui-admin
+    build:
+      context: ../Code-Base/UI-ADMIN
+      dockerfile: ../../Docker-Environment-Orchestration/UI-ADMIN/Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api-gateway
+
+  ui-consumer:
+    # build: ./ui-consumer
+    build:
+      context: ../Code-Base/UI-CONSUMER
+      dockerfile: ../../Docker-Environment-Orchestration/UI-CONSUMER/Dockerfile
+    ports:
+      - "3001:3000"
+    depends_on:
+      - api-gateway
+
+  ui-business:
+    # build: ./ui-business
+    build:
+      context: ../Code-Base/UI-BUSINESS
+      dockerfile: ../../Docker-Environment-Orchestration/UI-BUSINESS/Dockerfile
+    ports:
+      - "3002:3000"
+    depends_on:
+      - api-gateway
+  # Original bit, working, just in case
+  # api-gateway:
+  #   # build: ./api-gateway
+  #   build:
+  #     context: ../Code-Base/API-GATEWAY
+  #     dockerfile: ../../Docker-Environment-Orchestration/API-GATEWAY/Dockerfile
+  #   ports:
+  #     - "4000:4000"
+  #   depends_on:
+  #     - auth-service
+  #     - user-service
+  #     - card-service
+  #     - payment-service
+  #     - fx-service
+  #     - kyc-service
+
+  api-gateway:
+    build:
+      context: ../Code-Base/API-GATEWAY
+      dockerfile: ../../Docker-Environment-Orchestration/API-GATEWAY/Dockerfile
+    container_name: api-gateway
+    ports:
+      - "4000:4000"
+    depends_on:
+      - auth-service
+      - user-service
+      - card-service
+      - payment-service
+      - fx-service
+      - kyc-service
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=development
+    env_file:
+      - ../../Code-Base/API-GATEWAY/.env
+    healthcheck:
+      test: [ "CMD", "wget", "--spider", "-q", "http://localhost:4000" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - calu-network
+    volumes:
+      - ../Code-Base/API-GATEWAY:/app:cached # Optional: hot reload in dev
+
+  auth-service:
+    # build: ./auth-service
+    build:
+      context: ../Code-Base/AUTH-SERVICE
+      dockerfile: ../../Docker-Environment-Orchestration/AUTH-SERVICE/Dockerfile
+    ports:
+      - "4001:4000"
+    depends_on:
+      - postgres
+
+  user-service:
+    # build: ./user-service
+    build:
+      context: ../Code-Base/USER-SERVICE
+      dockerfile: ../../Docker-Environment-Orchestration/USER-SERVICE/Dockerfile
+    ports:
+      - "4002:4000"
+    depends_on:
+      - postgres
+
+  card-service:
+    # build: ./card-service
+    build:
+      context: ../Code-Base/CARD-SERVICE
+      dockerfile: ../../Docker-Environment-Orchestration/CARD-SERVICE/Dockerfile
+    ports:
+      - "4003:4000"
+    depends_on:
+      - postgres
+
+  payment-service:
+    # build: ./payment-service
+    build:
+      context: ../Code-Base/PAYMENT-SERVICE
+      dockerfile: ../../Docker-Environment-Orchestration/PAYMENT-SERVICE/Dockerfile
+    ports:
+      - "4004:4004"
+    depends_on:
+      - postgres
+
+  fx-service:
+    # build: ./fx-service
+    build:
+      context: ../Code-Base/FX-SERVICE
+      dockerfile: ../../Docker-Environment-Orchestration/FX-SERVICE/Dockerfile
+    ports:
+      - "4005:4005"
+    depends_on:
+      - postgres
+
+  kyc-service:
+    # build: ./kyc-service
+    build:
+      context: ../Code-Base/KYC-SERVICE
+      dockerfile: ../../Docker-Environment-Orchestration/KYC-SERVICE/Dockerfile
+    ports:
+      - "4006:4006"
+    depends_on:
+      - postgres
+
+  redis-worker:
+    build:
+      context: ../Code-Base/REDIS-WORKER
+      dockerfile: ../../Docker-Environment-Orchestration/REDIS-WORKER/Dockerfile
+    depends_on:
+      - redis
+
+  rabbitmq-worker:
+    # build: ./rabbitmq-worker
+    build:
+      context: ../Code-Base/RABBITMQ-WORKER
+      dockerfile: ../../Docker-Environment-Orchestration/RABBITMQ-WORKER/Dockerfile
+    depends_on:
+      - rabbitmq
+
+  postgres:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: postgres  # 🔧 Change this if you want a custom DB user
+      POSTGRES_PASSWORD: postgres  # 🔧 Change this for security in production
+      POSTGRES_DB: main  # 🔧 Change to your desired DB name
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data  # 🧠 Optional but recommended for persistence
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmqdata:/var/lib/rabbitmq  # 🧠 Ensures queues/config persist
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@local.com  # 🔧 Set to your preferred email
+      PGADMIN_DEFAULT_PASSWORD: admin  # 🔧 Change for secure access
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    volumes:
+      - pgadmindata:/var/lib/pgadmin  # 🧠 Stores pgAdmin config
+  
+  dummy-service:
+    build:
+      context: ../Code-Base/DUMMY-SERVICE
+      dockerfile: ../../Docker-Environment-Orchestration/DUMMY-SERVICE/Dockerfile
+    container_name: dummy-service
+    ports:
+      - "3002:3002" # Expone el puerto 3002 al host
+    networks:
+      - calu-network
+
+volumes:
+  pgdata:
+  redisdata:
+  rabbitmqdata:
+  pgadmindata:
+
+networks:
+  calu-network:
+    driver: bridge

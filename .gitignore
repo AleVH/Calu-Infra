@@ -1,0 +1,5 @@
+# Ignore everything inside Code-Base recursively
+Code-Base/*
+
+# Allow first-level folders
+!Code-Base/*/
