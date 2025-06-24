@@ -25,7 +25,7 @@ services:
       context: ../Code-Base/UI-BUSINESS
       dockerfile: ../../Docker-Environment-Orchestration/UI-BUSINESS/Dockerfile
     ports:
-      - "3002:3000"
+      - "3003:3000"
     depends_on:
       - api-gateway
   # Original bit, working, just in case
@@ -62,7 +62,7 @@ services:
     environment:
       - NODE_ENV=development
     env_file:
-      - ../../Code-Base/API-GATEWAY/.env
+      - ../Code-Base/API-GATEWAY/.env
     healthcheck:
       test: [ "CMD", "wget", "--spider", "-q", "http://localhost:4000" ]
       interval: 30s
@@ -150,11 +150,13 @@ services:
 
   postgres:
     image: postgres:15
+    container_name: postgres
     restart: always
     environment:
       POSTGRES_USER: postgres  # 🔧 Change this if you want a custom DB user
       POSTGRES_PASSWORD: postgres  # 🔧 Change this for security in production
-      POSTGRES_DB: main  # 🔧 Change to your desired DB name
+      POSTGRES_DB: calu_system  # 🔧 Change to your desired DB name
+      TZ: UTC  # 🧠 Set timezone to UTC for consistency
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
