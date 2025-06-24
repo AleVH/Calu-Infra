@@ -41,7 +41,7 @@ done
 
 echo -e "\n🧪 Ensuring .env files exist where needed..."
 
-for service in "${env_servicesv[@]}"; do
+for service in "${env_services[@]}"; do
   env_path="Code-Base/$service/.env"
   if [ ! -f "$env_path" ]; then
     echo "APP_ENV=development" > "$env_path"
