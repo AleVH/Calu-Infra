@@ -116,7 +116,7 @@ pip install requests
 ```
 
 # 5. Create the Python Script
-Create a new file named `generate_country_data.py` inside `SYSTEM-SCRIPTS/PYTHON/`.
+If the file doesn't exist already, create a new file named `generate_country_data.py` inside `SYSTEM-SCRIPTS/PYTHON/`.
 
 File Path: `~/Documents/Projects/Calu/Code-Base/SYSTEM-SCRIPTS/PYTHON/generate_country_data.py`
 
@@ -285,7 +285,7 @@ Execute this command from your local machine's terminal (the same terminal where
 
 ```Bash
 
-psql -h localhost -p 5432 -U postgres -d calu_system -f ./SYSTEM-SCRIPTS/PYTHON/country_inserts.sql
+PGPASSWORD=postgres psql -h localhost -p 5432 -U postgres -d calu_system -f ./country_inserts.sql
 ```
 
 You will likely be prompted for the postgres user's password, which is postgres as per your docker-compose.yml.
@@ -295,7 +295,7 @@ To confirm that the data has been successfully inserted, you can connect to your
 
 ```Bash
 
-psql -h localhost -p 5432 -U postgres -d calu_system
+PGPASSWORD=postgres psql -h localhost -p 5432 -U postgres -d calu_system
 ```
 
 (Enter password `postgres` when prompted)
