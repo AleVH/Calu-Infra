@@ -1,5 +1,45 @@
-# Ignore everything inside Code-Base recursively
-Code-Base/*
+# --------------------------------------------------------------------------
+# Git Ignore for calu infra repository
+# This file ensures only specific subfolders of Code-Base are tracked,
+# while other core infrastructure components are fully included.
+# --------------------------------------------------------------------------
 
-# Allow first-level folders
-!Code-Base/*/
+# --- Code-Base specific rules ---
+# By default, ignore the entire 'Code-Base' directory and all its contents recursively.
+# This prevents unintended tracking of other service repositories.
+Code-Base/
+
+# EXCEPTION: Explicitly unignore the specific subdirectories from Code-Base that need to be tracked.
+# These rules override the broader 'Code-Base/' ignore rule above.
+!Code-Base/GENERAL-SERVICES/
+!Code-Base/SYSTEM-SCRIPTS/
+
+# --- Other top-level items ---
+# The following top-level directories and files are implicitly tracked by Git
+# (because they are not ignored by any rules above). You do NOT need to add
+# explicit !rules for them unless you had a very broad ignore (like /*) initially.
+#
+# - Database/
+# - Docker-Environment-Orchestration/
+# - Monitoring/
+# - README.md
+# - bootstrap-services.sh
+# - clone-services.sh
+# - run-me-before-running-docker.sh
+#
+# No specific .gitignore rules needed for these as they are not affected
+# by the 'Code-Base/' ignore rule.
+
+# --------------------------------------------------------------------------
+# Standard OS and editor ignored files (add as needed)
+# .DS_Store
+# .env
+# venv/
+# __pycache__/
+# node_modules/
+# .idea/
+# .vscode/
+# *~
+# *.bak
+# *.swp
+# --------------------------------------------------------------------------

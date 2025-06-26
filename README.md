@@ -22,3 +22,7 @@ Once those 2 script were excecuted, go to the folder `Docker-Environment-Orchest
 ```
 docker-compose up -d --build
 ```
+
+## Database
+Once docker is up and running, import the database schema. This will prepare all basic tables for the syste to run.
+Some tables like country and currency have special seeders that will regenerate on request. This will be allocated in `Code-Base/SYSTEM-SCRIPTS/PYTHON`
