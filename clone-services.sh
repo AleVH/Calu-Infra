@@ -8,7 +8,7 @@ git clone https://github.com/AleVH/Calu-Service-KYC-SERVICE.git ./Code-Base/KYC-
 git clone https://github.com/AleVH/Calu-Service-PAYMENT-SERVICE.git ./Code-Base/PAYMENT-SERVICE/
 git clone https://github.com/AleVH/Calu-Service-RABBITMQ-WORKER.git ./Code-Base/RABBITMQ-WORKER/
 git clone https://github.com/AleVH/Calu-Service-REDIS-WORKER.git ./Code-Base/REDIS-WORKER/
-git clone https://github.com/AleVH/Calu-Service-UI-ADMIN.git ./Code-Base/UI-ADMIN/
-git clone https://github.com/AleVH/Calu-Service-UI-BUSINESS.git ./Code-Base/UI-BUSINESS/
-git clone https://github.com/AleVH/Calu-Service-UI-CONSUMER.git ./Code-Base/UI-CONSUMER/
+git clone https://github.com/AleVH/Calu-Service-UI-ADMIN.git ./Code-Base/ui-admin/
+git clone https://github.com/AleVH/Calu-Service-UI-BUSINESS.git ./Code-Base/ui-business/
+git clone https://github.com/AleVH/Calu-Service-UI-CONSUMER.git ./Code-Base/ui-consumer/
 git clone https://github.com/AleVH/Calu-Service-USER-SERVICE.git ./Code-Base/USER-SERVICE/
