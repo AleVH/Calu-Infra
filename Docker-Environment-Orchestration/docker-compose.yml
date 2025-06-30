@@ -1,8 +1,8 @@
 services:
   ui-admin:
-    # build: ./ui-admin
+    container_name: ui-admin
     build:
-      context: ../Code-Base/UI-ADMIN
+      context: ../Code-Base/ui-admin
       dockerfile: ../../Docker-Environment-Orchestration/UI-ADMIN/Dockerfile
     ports:
       - "3000:3000"
@@ -10,9 +10,9 @@ services:
       - api-gateway
 
   ui-consumer:
-    # build: ./ui-consumer
+    container_name: ui-consumer
     build:
-      context: ../Code-Base/UI-CONSUMER
+      context: ../Code-Base/ui-consumer
       dockerfile: ../../Docker-Environment-Orchestration/UI-CONSUMER/Dockerfile
     ports:
       - "3001:3000"
@@ -20,9 +20,9 @@ services:
       - api-gateway
 
   ui-business:
-    # build: ./ui-business
+    container_name: ui-business
     build:
-      context: ../Code-Base/UI-BUSINESS
+      context: ../Code-Base/ui-business
       dockerfile: ../../Docker-Environment-Orchestration/UI-BUSINESS/Dockerfile
     ports:
       - "3003:3000"
@@ -74,7 +74,7 @@ services:
       - ../Code-Base/API-GATEWAY:/app:cached # Optional: hot reload in dev
 
   auth-service:
-    # build: ./auth-service
+    container_name: auth-service
     build:
       context: ../Code-Base/AUTH-SERVICE
       dockerfile: ../../Docker-Environment-Orchestration/AUTH-SERVICE/Dockerfile
@@ -84,7 +84,7 @@ services:
       - postgres
 
   user-service:
-    # build: ./user-service
+    container_name: user-service
     build:
       context: ../Code-Base/USER-SERVICE
       dockerfile: ../../Docker-Environment-Orchestration/USER-SERVICE/Dockerfile
@@ -94,7 +94,7 @@ services:
       - postgres
 
   card-service:
-    # build: ./card-service
+    container_name: card-service
     build:
       context: ../Code-Base/CARD-SERVICE
       dockerfile: ../../Docker-Environment-Orchestration/CARD-SERVICE/Dockerfile
@@ -104,7 +104,7 @@ services:
       - postgres
 
   payment-service:
-    # build: ./payment-service
+    container_name: payment-service
     build:
       context: ../Code-Base/PAYMENT-SERVICE
       dockerfile: ../../Docker-Environment-Orchestration/PAYMENT-SERVICE/Dockerfile
@@ -114,7 +114,7 @@ services:
       - postgres
 
   fx-service:
-    # build: ./fx-service
+    container_name: fx-service
     build:
       context: ../Code-Base/FX-SERVICE
       dockerfile: ../../Docker-Environment-Orchestration/FX-SERVICE/Dockerfile
@@ -124,7 +124,7 @@ services:
       - postgres
 
   kyc-service:
-    # build: ./kyc-service
+    container_name: kyc-service
     build:
       context: ../Code-Base/KYC-SERVICE
       dockerfile: ../../Docker-Environment-Orchestration/KYC-SERVICE/Dockerfile
@@ -134,6 +134,7 @@ services:
       - postgres
 
   redis-worker:
+    container_name: redis-worker
     build:
       context: ../Code-Base/REDIS-WORKER
       dockerfile: ../../Docker-Environment-Orchestration/REDIS-WORKER/Dockerfile
@@ -141,7 +142,7 @@ services:
       - redis
 
   rabbitmq-worker:
-    # build: ./rabbitmq-worker
+    container_name: rabbitmq-worker
     build:
       context: ../Code-Base/RABBITMQ-WORKER
       dockerfile: ../../Docker-Environment-Orchestration/RABBITMQ-WORKER/Dockerfile
@@ -163,6 +164,7 @@ services:
       - "5432:5432"
 
   redis:
+    container_name: redis
     image: redis:7
     restart: always
     ports:
@@ -171,6 +173,7 @@ services:
       - redisdata:/data  # 🧠 Optional but recommended for persistence
 
   rabbitmq:
+    container_name: rabbitmq
     image: rabbitmq:3-management
     restart: always
     ports:
@@ -180,6 +183,7 @@ services:
       - rabbitmqdata:/var/lib/rabbitmq  # 🧠 Ensures queues/config persist
 
   pgadmin:
+    container_name: pgadmin
     image: dpage/pgadmin4
     restart: always
     environment:
