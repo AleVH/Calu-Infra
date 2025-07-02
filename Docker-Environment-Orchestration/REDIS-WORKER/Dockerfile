@@ -1,5 +1,5 @@
 # Node.js + BullMQ Redis Worker
-FROM node:18-alpine
+FROM node:20-alpine
 
 # Create the working directory
 WORKDIR /app
