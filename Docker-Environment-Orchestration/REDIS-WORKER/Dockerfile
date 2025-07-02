@@ -4,6 +4,8 @@ FROM node:18-alpine
 # Create the working directory
 WORKDIR /app
 
+COPY . .
+
 # If empty, bootstrap with dummy worker
 RUN if [ ! -f package.json ]; then \
         npm init -y && \

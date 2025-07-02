@@ -4,8 +4,13 @@ services:
     build:
       context: ../Code-Base/ui-admin
       dockerfile: ../../Docker-Environment-Orchestration/UI-ADMIN/Dockerfile
+    volumes:
+      - ../Code-Base/ui-admin:/app # Optional: hot reload in dev
+      - /app/node_modules # Avoids conflicts with host node_modules
     ports:
       - "3000:3000"
+    environment:
+      - NODE_ENV=development
     depends_on:
       - api-gateway
 
@@ -14,8 +19,13 @@ services:
     build:
       context: ../Code-Base/ui-consumer
       dockerfile: ../../Docker-Environment-Orchestration/UI-CONSUMER/Dockerfile
+    volumes:
+      - ../Code-Base/ui-consumer:/app # Optional: hot reload in dev
+      - /app/node_modules # Avoids conflicts with host node_modules
     ports:
       - "3001:3000"
+    environment:
+      - NODE_ENV=development
     depends_on:
       - api-gateway
 
@@ -24,8 +34,13 @@ services:
     build:
       context: ../Code-Base/ui-business
       dockerfile: ../../Docker-Environment-Orchestration/UI-BUSINESS/Dockerfile
+    volumes:
+      - ../Code-Base/ui-business:/app # Optional: hot reload in dev
+      - /app/node_modules # Avoids conflicts with host node_modules
     ports:
       - "3003:3000"
+    environment:
+      - NODE_ENV=development
     depends_on:
       - api-gateway
   # Original bit, working, just in case

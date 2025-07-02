@@ -14,12 +14,15 @@ RUN if [ -f requirements.txt ]; then \
         pip install --no-cache-dir fastapi uvicorn ; \
     fi
 
+# If no main.py exists, generate a dummy FastAPI app
 RUN if [ ! -f main.py ]; then \
         echo "from fastapi import FastAPI\n\
-        app = FastAPI()\n\
-        @app.get('/')\n\
-        def read_root():\n\
-        return {'message': 'Payment service is running'}" > main.py ; \
+\n\
+app = FastAPI()\n\
+\n\
+@app.get('/')\n\
+def read_root():\n\
+    return { 'message': 'Payment service is running' }" > main.py ; \
     fi
 
 EXPOSE 4004
