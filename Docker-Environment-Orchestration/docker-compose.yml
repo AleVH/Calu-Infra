@@ -4,9 +4,6 @@ services:
     build:
       context: ../Code-Base/ui-admin
       dockerfile: ../../Docker-Environment-Orchestration/UI-ADMIN/Dockerfile
-    volumes:
-      - ../Code-Base/ui-admin:/app # Optional: hot reload in dev
-      - /app/node_modules # Avoids conflicts with host node_modules
     ports:
       - "3000:3000"
     environment:
@@ -19,9 +16,6 @@ services:
     build:
       context: ../Code-Base/ui-consumer
       dockerfile: ../../Docker-Environment-Orchestration/UI-CONSUMER/Dockerfile
-    volumes:
-      - ../Code-Base/ui-consumer:/app # Optional: hot reload in dev
-      - /app/node_modules # Avoids conflicts with host node_modules
     ports:
       - "3001:3000"
     environment:
@@ -34,9 +28,6 @@ services:
     build:
       context: ../Code-Base/ui-business
       dockerfile: ../../Docker-Environment-Orchestration/UI-BUSINESS/Dockerfile
-    volumes:
-      - ../Code-Base/ui-business:/app # Optional: hot reload in dev
-      - /app/node_modules # Avoids conflicts with host node_modules
     ports:
       - "3003:3000"
     environment:
@@ -139,6 +130,7 @@ services:
       - postgres
 
   kyc-service:
+    restart: unless-stopped
     container_name: kyc-service
     build:
       context: ../Code-Base/KYC-SERVICE

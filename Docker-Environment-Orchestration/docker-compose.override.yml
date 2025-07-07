@@ -1,0 +1,22 @@
+services:
+  redis-worker:
+    volumes:
+      - ../Code-Base/REDIS-WORKER:/app
+
+  ui-admin:
+    volumes:
+      - ../Code-Base/UI-ADMIN:/app
+      - /app/node_modules # Avoids conflicts with host node_modules (*)
+
+  ui-consumer:
+    volumes:
+      - ../Code-Base/UI-CONSUMER:/app
+      - /app/node_modules # Avoids conflicts with host node_modules (*)
+
+  ui-business:
+    volumes:
+      - ../Code-Base/UI-BUSINESS:/app
+      - /app/node_modules # Avoids conflicts with host node_modules (*)
+
+  # Add more as needed...
+# (*) This tells Docker: “Don’t use the host's node_modules (which may not exist or match). Use the container's instead.”
