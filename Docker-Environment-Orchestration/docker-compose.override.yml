@@ -5,17 +5,17 @@ services:
 
   ui-admin:
     volumes:
-      - ../Code-Base/UI-ADMIN:/app
+      - ../Code-Base/ui-admin:/app
       - /app/node_modules # Avoids conflicts with host node_modules (*)
 
   ui-consumer:
     volumes:
-      - ../Code-Base/UI-CONSUMER:/app
+      - ../Code-Base/ui-consumer:/app
       - /app/node_modules # Avoids conflicts with host node_modules (*)
 
   ui-business:
     volumes:
-      - ../Code-Base/UI-BUSINESS:/app
+      - ../Code-Base/ui-business:/app
       - /app/node_modules # Avoids conflicts with host node_modules (*)
 
   # Add more as needed...
