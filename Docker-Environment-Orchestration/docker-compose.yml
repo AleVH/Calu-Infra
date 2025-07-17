@@ -76,13 +76,11 @@ services:
       retries: 3
     networks:
       - calu-network
-    volumes:
-      - ../Code-Base/api-gateway:/app:cached # Optional: hot reload in dev
-
+    
   auth-service:
     container_name: auth-service
     build:
-      context: ../Code-Base/AUTH-SERVICE
+      context: ../Code-Base/auth-service
       dockerfile: ../../Docker-Environment-Orchestration/AUTH-SERVICE/Dockerfile
     ports:
       - "4001:4000"
@@ -92,7 +90,7 @@ services:
   user-service:
     container_name: user-service
     build:
-      context: ../Code-Base/USER-SERVICE
+      context: ../Code-Base/user-service
       dockerfile: ../../Docker-Environment-Orchestration/USER-SERVICE/Dockerfile
     ports:
       - "4002:4000"
@@ -102,8 +100,8 @@ services:
   card-service:
     container_name: card-service
     build:
-      context: ../Code-Base/CARD-SERVICE
-      dockerfile: ../../Docker-Environment-Orchestration/CARD-SERVICE/Dockerfile
+      context: ../Code-Base/card-service
+      dockerfile: ../../Docker-Environment-Orchestration/card-service/Dockerfile
     ports:
       - "4003:4000"
     depends_on:
@@ -143,7 +141,7 @@ services:
   redis-worker:
     container_name: redis-worker
     build:
-      context: ../Code-Base/REDIS-WORKER
+      context: ../Code-Base/redis-worker
       dockerfile: ../../Docker-Environment-Orchestration/REDIS-WORKER/Dockerfile
     depends_on:
       - redis
@@ -205,11 +203,27 @@ services:
   
   dummy-service:
     build:
-      context: ../Code-Base/DUMMY-SERVICE
+      context: ../Code-Base/dummy-service
       dockerfile: ../../Docker-Environment-Orchestration/DUMMY-SERVICE/Dockerfile
     container_name: dummy-service
     ports:
       - "3002:3002" # Expone el puerto 3002 al host
+    networks:
+      - calu-network
+
+  connector-service:
+    container_name: connector-service
+    build:
+      context: ../Code-Base/connector-service
+      dockerfile: ../../Docker-Environment-Orchestration/CONNECTOR-SERVICE/Dockerfile
+    ports:
+      - "4007:3000"
+    depends_on:
+      - postgres
+    environment:
+      - NODE_ENV=development
+    env_file:
+      - ../Code-Base/connector-service/.env  # Optional
     networks:
       - calu-network
 
