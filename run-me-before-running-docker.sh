@@ -3,20 +3,20 @@
 echo "📦 Creating service folders inside Code-Base..."
 
 services=(
-  API-GATEWAY
-  AUTH-SERVICE
-  USER-SERVICE
-  CARD-SERVICE
+  api-gateway
+  auth-service
+  user-service
+  card-service
   PAYMENT-SERVICE
   FX-SERVICE
   KYC-SERVICE
-  REDIS-WORKER
+  redis-worker
   RABBITMQ-WORKER
-  DUMMY-SERVICE
-  CONNECTOR-SERVICE
-  UI-ADMIN
-  UI-BUSINESS
-  UI-CONSUMER
+  dummy-service
+  connector-service
+  ui-admin
+  ui-business
+  ui-consumer
 )
 
 # Services that require a .env file for Docker compatibility

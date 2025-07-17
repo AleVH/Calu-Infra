@@ -1,21 +1,21 @@
 services:
   redis-worker:
     volumes:
-      - ../Code-Base/REDIS-WORKER:/app
+      - ../Code-Base/redis-worker:/app
 
   ui-admin:
     volumes:
-      - ../Code-Base/ui-admin:/app
+      # - ../Code-Base/ui-admin:/app # mutagen is taking care of the synchronization
       - /app/node_modules # Avoids conflicts with host node_modules (*)
 
   ui-consumer:
     volumes:
-      - ../Code-Base/ui-consumer:/app
+      # - ../Code-Base/ui-consumer:/app # mutagen is taking care of the synchronization
       - /app/node_modules # Avoids conflicts with host node_modules (*)
 
   ui-business:
     volumes:
-      - ../Code-Base/ui-business:/app
+      # - ../Code-Base/ui-business:/app # mutagen is taking care of the synchronization
       - /app/node_modules # Avoids conflicts with host node_modules (*)
 
   # Add more as needed...
