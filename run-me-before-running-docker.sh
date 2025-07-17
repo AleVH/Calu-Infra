@@ -21,7 +21,8 @@ services=(
 
 # Services that require a .env file for Docker compatibility
 env_services=(
-  API-GATEWAY
+  api-gateway
+  connector-service
 )
 
 mkdir -p Code-Base
