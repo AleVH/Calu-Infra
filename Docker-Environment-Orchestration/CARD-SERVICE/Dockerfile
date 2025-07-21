@@ -1,47 +1,20 @@
 # NestJS Card Service
 FROM node:20-alpine
 
-# Set working directory
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy existing code from Code-Base
-COPY . .
+# Copy only dependency metadata files for install step
+COPY package*.json ./
 
-# If no package.json exists, scaffold a minimal NestJS project
-RUN if [ ! -f package.json ]; then \
-        npm install -g @nestjs/cli && \
-        nest new tmp-app --package-manager npm --skip-git --skip-install && \
-        mv tmp-app/* tmp-app/.* . 2>/dev/null || true && \
-        rm -rf tmp-app ; \
-    fi
-
-# Install dependencies
+# Install Node.js dependencies
 RUN npm install
 
-# If no main.ts exists, create a basic bootstrap file
-RUN if [ ! -f src/main.ts ]; then \
-        mkdir -p src && \
-        echo "import { NestFactory } from '@nestjs/core';\n\
-import { Module } from '@nestjs/common';\n\
-import { Controller, Get } from '@nestjs/common';\n\
-\n\
-@Controller()\n\
-class AppController {\n\
-  @Get()\n\
-  getRoot(): object {\n\
-    return { message: 'Card service is running' };\n\
-  }\n\
-}\n\
-\n\
-@Module({ controllers: [AppController] })\n\
-class AppModule {}\n\
-\n\
-async function bootstrap() {\n\
-  const app = await NestFactory.create(AppModule);\n\
-  await app.listen(4001);\n\
-}\n\
-bootstrap();" > src/main.ts ; \
-    fi
+# Copy the entrypoint script
+COPY entrypoint.sh ./
+RUN chmod +x entrypoint.sh
 
-EXPOSE 4000
-CMD [ "npm", "run", "start:dev" ]
+# Do not copy source code — Mutagen will handle that
+
+# Let Mutagen sync source files after container starts
+CMD ["./entrypoint.sh"]

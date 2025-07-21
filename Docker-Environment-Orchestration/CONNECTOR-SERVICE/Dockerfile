@@ -1,19 +1,20 @@
 # NestJS Connector Service
 FROM node:20-alpine
 
+# Set the working directory inside the container
 WORKDIR /app
-COPY . .
 
-# Allow fallback for empty bind mounts during development
-RUN if [ ! -f package.json ]; then \
-        npm init -y --silent && \
-        npm install --silent && \
-        echo 'console.log("Connector Service ready.");' > index.js ; \
-    else \
-        npm install -g @nestjs/cli --silent && \
-        npm install --silent && \
-        npm run build ; \
-    fi
+# Copy only dependency metadata files for install step
+COPY package*.json ./
 
-EXPOSE 3000
-CMD [ "npm", "run", "start:dev" ]
+# Install Node.js dependencies
+RUN npm install
+
+# Copy the entrypoint script
+COPY entrypoint.sh ./
+RUN chmod +x entrypoint.sh
+
+# Do not copy source code — Mutagen will handle that
+
+# Let Mutagen sync source files after container starts
+CMD ["./entrypoint.sh"]

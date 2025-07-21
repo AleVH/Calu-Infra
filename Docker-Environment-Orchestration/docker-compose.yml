@@ -10,6 +10,8 @@ services:
       - NODE_ENV=development
     depends_on:
       - api-gateway
+    networks:
+      - calu-network
 
   ui-consumer:
     container_name: ui-consumer
@@ -22,6 +24,8 @@ services:
       - NODE_ENV=development
     depends_on:
       - api-gateway
+    networks:
+      - calu-network
 
   ui-business:
     container_name: ui-business
@@ -34,21 +38,8 @@ services:
       - NODE_ENV=development
     depends_on:
       - api-gateway
-  # Original bit, working, just in case
-  # api-gateway:
-  #   # build: ./api-gateway
-  #   build:
-  #     context: ../Code-Base/API-GATEWAY
-  #     dockerfile: ../../Docker-Environment-Orchestration/API-GATEWAY/Dockerfile
-  #   ports:
-  #     - "4000:4000"
-  #   depends_on:
-  #     - auth-service
-  #     - user-service
-  #     - card-service
-  #     - payment-service
-  #     - fx-service
-  #     - kyc-service
+    networks:
+      - calu-network
 
   api-gateway:
     build:
@@ -86,6 +77,8 @@ services:
       - "4001:4000"
     depends_on:
       - postgres
+    networks:
+      - calu-network
 
   user-service:
     container_name: user-service
@@ -96,6 +89,8 @@ services:
       - "4002:4000"
     depends_on:
       - postgres
+    networks:
+      - calu-network
 
   card-service:
     container_name: card-service
@@ -106,6 +101,8 @@ services:
       - "4003:4000"
     depends_on:
       - postgres
+    networks:
+      - calu-network
 
   payment-service:
     container_name: payment-service
@@ -116,6 +113,8 @@ services:
       - "4004:4004"
     depends_on:
       - postgres
+    networks:
+      - calu-network
 
   fx-service:
     container_name: fx-service
@@ -126,6 +125,8 @@ services:
       - "4005:4005"
     depends_on:
       - postgres
+    networks:
+      - calu-network
 
   kyc-service:
     restart: unless-stopped
@@ -137,6 +138,8 @@ services:
       - "4006:4006"
     depends_on:
       - postgres
+    networks:
+      - calu-network
 
   redis-worker:
     container_name: redis-worker
@@ -145,6 +148,8 @@ services:
       dockerfile: ../../Docker-Environment-Orchestration/REDIS-WORKER/Dockerfile
     depends_on:
       - redis
+    networks:
+      - calu-network
 
   rabbitmq-worker:
     container_name: rabbitmq-worker
@@ -153,6 +158,8 @@ services:
       dockerfile: ../../Docker-Environment-Orchestration/RABBITMQ-WORKER/Dockerfile
     depends_on:
       - rabbitmq
+    networks:
+      - calu-network
 
   postgres:
     image: postgres:15
@@ -167,6 +174,8 @@ services:
       - pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    networks:
+      - calu-network
 
   redis:
     container_name: redis
@@ -176,6 +185,8 @@ services:
       - "6379:6379"
     volumes:
       - redisdata:/data  # 🧠 Optional but recommended for persistence
+    networks:
+      - calu-network
 
   rabbitmq:
     container_name: rabbitmq
@@ -186,6 +197,8 @@ services:
       - "15672:15672"
     volumes:
       - rabbitmqdata:/var/lib/rabbitmq  # 🧠 Ensures queues/config persist
+    networks:
+      - calu-network
 
   pgadmin:
     container_name: pgadmin
@@ -200,6 +213,8 @@ services:
       - postgres
     volumes:
       - pgadmindata:/var/lib/pgadmin  # 🧠 Stores pgAdmin config
+    networks:
+      - calu-network
   
   dummy-service:
     build:
