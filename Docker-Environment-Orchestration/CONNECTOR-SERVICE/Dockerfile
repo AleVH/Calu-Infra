@@ -10,11 +10,7 @@ COPY package*.json ./
 # Install Node.js dependencies
 RUN npm install
 
-# Copy the entrypoint script
-COPY entrypoint.sh ./
-RUN chmod +x entrypoint.sh
-
 # Do not copy source code — Mutagen will handle that
 
-# Let Mutagen sync source files after container starts
-CMD ["./entrypoint.sh"]
+# Start the service in dev mode once code is synced
+CMD ["npm", "run", "start:dev"]

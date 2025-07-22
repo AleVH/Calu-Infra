@@ -23,6 +23,8 @@ services=(
 env_services=(
   api-gateway
   connector-service
+  card-service
+  auth-service
 )
 
 mkdir -p Code-Base

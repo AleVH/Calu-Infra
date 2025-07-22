@@ -18,5 +18,25 @@ services:
       # - ../Code-Base/ui-business:/app # mutagen is taking care of the synchronization
       - /app/node_modules # Avoids conflicts with host node_modules (*)
 
+  auth-service:
+    volumes:
+      - ../Code-Base/auth-service:/app
+
+  card-service:
+    volumes:
+      - ../Code-Base/card-service:/app
+
+  connector-service:
+    volumes:
+      - ../Code-Base/connector-service:/app
+
+  api-gateway:
+    volumes:
+      - ../Code-Base/api-gateway:/app
+
+  dummy-service:
+    volumes:
+      - ../Code-Base/dummy-service:/app
+
   # Add more as needed...
 # (*) This tells Docker: “Don’t use the host's node_modules (which may not exist or match). Use the container's instead.”
