@@ -14,4 +14,4 @@ COPY . .
 RUN npm run build
 
 # Run the worker
-CMD ["node", "dist/index.js"]
+CMD ["node", "index.js"]
